@@ -1,3 +1,5 @@
+
+use file_utils::run;
 fn main() {
-    println!("Hello, world!");
+  run();
 }
