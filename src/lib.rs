@@ -45,7 +45,7 @@ fn parse_config(config: Vec<String>) -> Result<(Actions, Vec<String>), io::Error
 fn flatten(mut args: Iter<String>) -> Result<(), io::Error> {
     if let Some(target_path) = args.next() {
         let target_dir = Path::new(target_path);
-        let new_name = args.next();
+        let new_dir = args.next();
 
         let other_args: Vec<&str> = args.map(|s| s.as_ref()).collect();
         let is_deep = other_args.contains(&"--deep");
@@ -56,7 +56,7 @@ fn flatten(mut args: Iter<String>) -> Result<(), io::Error> {
                 fs::remove_dir_all(&dir)?;
             }
         }
-        if let Some(new_name) = new_name {
+        if let Some(new_name) = new_dir {
             fs::rename(target_dir, new_name)?;
         };
     }
