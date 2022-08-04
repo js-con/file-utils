@@ -4,7 +4,6 @@ use std::{
     process,
     slice::Iter,
 };
-
 enum Actions {
     Flatten,
     Rename,
@@ -46,14 +45,16 @@ fn parse_config(config: Vec<String>) -> Result<(Actions, Vec<String>), io::Error
 fn flatten(mut args: Iter<String>) -> Result<(), io::Error> {
     if let Some(target_path) = args.next() {
         let target_dir = Path::new(target_path);
-        let inner_dirs = get_files_in_dir(&target_dir);
         let new_name = args.next();
+
         let other_args: Vec<&str> = args.map(|s| s.as_ref()).collect();
         let is_deep = other_args.contains(&"--deep");
 
-        for dir in inner_dirs {
-            extract_dir(dir.as_path(), target_dir, is_deep)?;
-            fs::remove_dir_all(dir)?;
+        for dir in get_files_in_dir(&target_dir) {
+            if dir.is_dir() {
+                extract_dir(dir.as_path(), target_dir, is_deep)?;
+                fs::remove_dir_all(dir)?;
+            }
         }
         if let Some(new_name) = new_name {
             fs::rename(target_dir, new_name)?;
