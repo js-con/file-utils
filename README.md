@@ -1,9 +1,9 @@
 ## TODO
 
 - [ ] flatten folder
-  - [ ] flatten same name folder
-  - [ ] flatten by input layer
-  - [ ] rename after flatten
+  - [x] flatten folder in target dir
+  - [x] rename after flatten
+  - [ ] deep mode 
 - [ ] batch rename files 
   - [ ] rename with a specific name
   - [ ] files filter
