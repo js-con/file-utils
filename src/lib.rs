@@ -52,8 +52,8 @@ fn flatten(mut args: Iter<String>) -> Result<(), io::Error> {
 
         for dir in get_files_in_dir(&target_dir) {
             if dir.is_dir() {
-                extract_dir(dir.as_path(), target_dir, is_deep)?;
-                fs::remove_dir_all(dir)?;
+                extract_dir(&dir, target_dir, is_deep)?;
+                fs::remove_dir_all(&dir)?;
             }
         }
         if let Some(new_name) = new_name {
@@ -67,6 +67,13 @@ fn extract_dir(from: &Path, to: &Path, deep: bool) -> Result<(), io::Error> {
         if file.is_dir() {
             if deep {
                 extract_dir(&file, to, deep)?;
+            } else {
+                println!(
+                    "start copy {} to {}",
+                    &file.to_str().unwrap(),
+                    to.to_str().unwrap()
+                );
+                copy_dir(&file, to)?;
             }
         } else {
             fs::copy(&file, Path::join(to, &file.file_name().unwrap()))?;
@@ -78,11 +85,16 @@ fn copy_dir(target: &Path, to: &Path) -> Result<(), io::Error> {
     if !target.is_dir() {
         ()
     }
+    let new_dir = Path::join(to, target.file_name().unwrap());
+    println!("new_dir is {}", new_dir.to_str().unwrap());
+    fs::create_dir(&new_dir)?;
+
     for file in get_files_in_dir(target) {
+        println!("detect file: {}", file.to_str().unwrap());
         if file.is_dir() {
-            copy_dir(target, &Path::join(to, file.file_name().unwrap()))?;
+            copy_dir(&file, &Path::join(&new_dir, file.file_name().unwrap()))?;
         } else {
-            fs::copy(file, to)?;
+            fs::copy(&file, Path::join(&new_dir, file.file_name().unwrap()))?;
         }
     }
     Ok(())
