@@ -68,11 +68,6 @@ fn extract_dir(from: &Path, to: &Path, deep: bool) -> Result<(), io::Error> {
             if deep {
                 extract_dir(&file, to, deep)?;
             } else {
-                println!(
-                    "start copy {} to {}",
-                    &file.to_str().unwrap(),
-                    to.to_str().unwrap()
-                );
                 copy_dir(&file, to)?;
             }
         } else {
@@ -86,11 +81,9 @@ fn copy_dir(target: &Path, to: &Path) -> Result<(), io::Error> {
         ()
     }
     let new_dir = Path::join(to, target.file_name().unwrap());
-    println!("new_dir is {}", new_dir.to_str().unwrap());
     fs::create_dir(&new_dir)?;
 
     for file in get_files_in_dir(target) {
-        println!("detect file: {}", file.to_str().unwrap());
         if file.is_dir() {
             copy_dir(&file, &Path::join(&new_dir, file.file_name().unwrap()))?;
         } else {
