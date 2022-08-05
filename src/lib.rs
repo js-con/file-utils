@@ -38,25 +38,36 @@ fn parse_config(config: Vec<String>) -> Result<(Actions, Vec<String>), io::Error
     let args = config[2..].to_vec();
     Ok((action, args))
 }
-fn flatten(mut args: Iter<String>) -> Result<(), io::Error> {
-    if let Some(target_path) = args.next() {
-        let target_dir = Path::new(target_path);
-        let new_dir = args.next();
-
-        let other_args = &args.map(|s| s.as_ref()).collect::<Vec<&str>>();
-        let is_deep = other_args.contains(&"--deep");
-
-        for dir in get_files_in_dir(target_dir) {
-            if dir.is_dir() {
-                extract_dir(&dir, target_dir, is_deep)?;
-                fs::remove_dir_all(&dir)?;
+fn flatten(args: Iter<String>) -> Result<(), io::Error> {
+    match parse_flatten_args(args) {
+        Some((target_dir, new_dir, is_deep)) => {
+            for dir in get_files_in_dir(target_dir) {
+                if dir.is_dir() {
+                    extract_dir(&dir, target_dir, is_deep)?;
+                    fs::remove_dir_all(&dir)?;
+                }
             }
+            if !new_dir.is_empty() {
+                fs::rename(target_dir, new_dir)?;
+            }
+            Ok(())
         }
-        if let Some(new_name) = new_dir {
-            fs::rename(target_dir, new_name)?;
-        };
+        None => Err(io::Error::new(
+            io::ErrorKind::Other,
+            "Please input target directory",
+        )),
     }
-    Ok(())
+}
+fn parse_flatten_args(mut args: Iter<String>) -> Option<(&Path, &str, bool)> {
+    let target_dir = Path::new(args.next()?);
+    let other_args = &args.map(|s| s.as_ref()).collect::<Vec<&str>>();
+    let new_dir = if !other_args[0].contains("--") {
+        other_args[0]
+    } else {
+        ""
+    };
+    let is_deep = other_args.contains(&"--deep");
+    Some((target_dir, new_dir, is_deep))
 }
 fn extract_dir(from: &Path, to: &Path, deep: bool) -> Result<(), io::Error> {
     for file in get_files_in_dir(from) {
