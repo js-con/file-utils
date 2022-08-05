@@ -1,3 +1,18 @@
+## About
+A command line tool, making it easier to deal with files/directories.
+
+## Usage
+
+**flatten**
+```shell
+./file-utils flat target_dir [new_dir] [--deep] 
+```
+
+**rename**
+```shell
+
+```
+
 ## Features
 
 - [x] flatten folder
