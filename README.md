@@ -10,7 +10,7 @@ A command line tool, making it easier to deal with files/directories.
 
 **rename**
 ```shell
-
+./file-utils rename target_file new_file
 ```
 
 ## Features
@@ -20,6 +20,7 @@ A command line tool, making it easier to deal with files/directories.
   - [x] rename/move after flatten
   - [x] deep mode 
 - [ ] batch rename files 
-  - [ ] rename with a specific name
+  - [ ] rename one file with a new name
+  - [ ] batch rename files
   - [ ] files filter
   - [ ] custom name rules
