@@ -5,6 +5,7 @@ enum Actions {
     None,
 }
 mod flatten;
+mod rename;
 
 pub fn run(config: Vec<String>) {
     let (action, args) = parse_config(config).expect("parse config failed");
