@@ -27,7 +27,8 @@ pub fn run(args: Iter<String>) -> Result<(), io::Error> {
 fn parse_flatten_args(mut args: Iter<String>) -> Option<(&Path, &str, bool)> {
     let target_dir = Path::new(args.next()?);
     let other_args = &args.map(|s| s.as_ref()).collect::<Vec<&str>>();
-    let new_dir = if !other_args[0].contains("--") {
+
+    let new_dir = if !other_args.is_empty() && !other_args[0].contains("--") {
         other_args[0]
     } else {
         ""
