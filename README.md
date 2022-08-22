@@ -5,12 +5,12 @@ A command line tool, making it easier to deal with files/directories.
 
 **flatten**
 ```shell
-./file-utils flat target_dir [new_dir] [--deep] 
+./fu flat target_dir [new_dir] [--deep] 
 ```
 
 **rename**
 ```shell
-./file-utils rename target_file new_file
+./fu rn target_file new_file
 ```
 
 ## Features
@@ -20,7 +20,7 @@ A command line tool, making it easier to deal with files/directories.
   - [x] rename/move after flatten
   - [x] deep mode 
 - [ ] batch rename files 
-  - [ ] rename one file with a new name
+  - [ ] rename a file
   - [ ] batch rename files
-  - [ ] files filter
-  - [ ] custom name rules
+    - [ ] files filter
+    - [ ] custom name rules
