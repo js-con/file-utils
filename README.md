@@ -10,7 +10,7 @@ A command line tool, making it easier to deal with files/directories.
 
 **rename**
 ```shell
-./fu rn target_file new_file
+./fu rn {glob} new_file
 ```
 
 ## Features
@@ -19,8 +19,6 @@ A command line tool, making it easier to deal with files/directories.
   - [x] flatten folder in target dir
   - [x] rename/move after flatten
   - [x] deep mode 
-- [ ] batch rename files 
-  - [ ] rename a file
-  - [ ] batch rename files
-    - [ ] files filter
-    - [ ] custom name rules
+- [ ] rename files 
+  - [ ] rename a single file
+  - [ ] batch rename files(glob rules)
