@@ -17,3 +17,4 @@ linker = "x86_64_w64-mingw32-gcc"
 ar = "x86_64-w64-mingw32-gcc-ar"
 
 [dependencies]
+glob = "0.3.0"
