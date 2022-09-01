@@ -9,8 +9,8 @@ mod rename;
 
 pub fn run(config: Vec<String>) {
     let (action, args) = parse_config(config).expect("parse config failed");
-    if let Actions::Flatten = action {
-        match flatten::run(args.iter()) {
+    match action {
+        Actions::Flatten => match flatten::run(args.iter()) {
             Ok(()) => {
                 println!("flatten success");
                 process::exit(1)
@@ -19,6 +19,19 @@ pub fn run(config: Vec<String>) {
                 eprintln!("flatten failed: {}", e);
                 process::exit(1)
             }
+        },
+        Actions::Rename => match rename::run(args.iter()) {
+            Ok(()) => {
+                println!("rename success");
+                process::exit(1)
+            }
+            Err(e) => {
+                eprintln!("flatten failed: {}", e);
+                process::exit(1)
+            }
+        },
+        Actions::None => {
+            println!("action doesn't exist")
         }
     }
 }
