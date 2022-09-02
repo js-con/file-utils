@@ -20,16 +20,7 @@ pub fn run(config: Vec<String>) {
                 process::exit(1)
             }
         },
-        Actions::Rename => match rename::run(args.iter()) {
-            Ok(()) => {
-                println!("rename success");
-                process::exit(1)
-            }
-            Err(e) => {
-                eprintln!("flatten failed: {}", e);
-                process::exit(1)
-            }
-        },
+        Actions::Rename => rename::run(args.iter()),
         Actions::None => {
             println!("action doesn't exist")
         }
