@@ -5,7 +5,7 @@ A command line tool, making it easier to deal with files/directories.
 
 ### flatten
 ```shell
-./fu flat target_dir [new_dir] [--deep] 
+./fu flat {target_dir} [new_dir] [--deep] 
 ```
 
 ### rename
@@ -14,11 +14,17 @@ A command line tool, making it easier to deal with files/directories.
 
 shell: 
 ```shell
-./fu rn {glob} {new_suffix}
+./fu rename {glob} {new_suffix}
 ```
 bash:
 ```bash
-./fu rn "{glob}" {new_suffix}
+./fu rename "{glob}" {new_suffix}
+```
+
+### sort
+
+```shell
+./fu sort {target_dir} [--deep]
 ```
 
 **notice!**
@@ -33,3 +39,4 @@ bash:
   - [x] deep mode 
 - [x] rename files 
   - [x] batch change suffix of files(glob rules)
+- [ ] sort files

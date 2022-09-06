@@ -1,6 +1,7 @@
 use std::{io, process};
 mod flatten;
 mod rename;
+mod utils;
 
 enum Actions {
     Flatten,
