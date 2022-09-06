@@ -10,20 +10,9 @@ mod rename;
 pub fn run(config: Vec<String>) {
     let (action, args) = parse_config(config).expect("parse config failed");
     match action {
-        Actions::Flatten => match flatten::run(args.iter()) {
-            Ok(()) => {
-                println!("flatten success");
-                process::exit(1)
-            }
-            Err(e) => {
-                eprintln!("flatten failed: {}", e);
-                process::exit(1)
-            }
-        },
+        Actions::Flatten => flatten::run(args.iter()),
         Actions::Rename => rename::run(args.iter()),
-        Actions::None => {
-            println!("action doesn't exist")
-        }
+        Actions::None => println!("wrong action!"),
     }
 }
 fn parse_config(config: Vec<String>) -> Result<(Actions, Vec<String>), io::Error> {

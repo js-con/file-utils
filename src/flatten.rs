@@ -1,27 +1,34 @@
 use std::{
     fs, io,
     path::{Path, PathBuf},
+    process,
     slice::Iter,
 };
 
-pub fn run(args: Iter<String>) -> Result<(), io::Error> {
+pub fn run(args: Iter<String>) {
     match parse_flatten_args(args) {
         Some((target_dir, new_dir, is_deep)) => {
             for dir in get_files_in_dir(target_dir) {
                 if dir.is_dir() {
-                    extract_dir(&dir, target_dir, is_deep)?;
-                    fs::remove_dir_all(&dir)?;
+                    if let Err(e) = extract_dir(&dir, target_dir, is_deep) {
+                        eprintln!("error when extract dir: {}", e);
+                    }
+                    if let Err(e) = fs::remove_dir_all(&dir) {
+                        eprintln!("error when remove dir: {}", e);
+                    }
                 }
             }
             if !new_dir.is_empty() {
-                fs::rename(target_dir, new_dir)?;
+                if let Err(e) = fs::rename(target_dir, new_dir) {
+                    eprintln!("error when rename dir: {}", e)
+                }
             }
-            Ok(())
+            println!("flatten success");
         }
-        None => Err(io::Error::new(
-            io::ErrorKind::Other,
-            "Please input target directory",
-        )),
+        None => {
+            eprintln!("please input the target dir");
+            process::exit(1);
+        }
     }
 }
 fn parse_flatten_args(mut args: Iter<String>) -> Option<(&Path, &str, bool)> {
