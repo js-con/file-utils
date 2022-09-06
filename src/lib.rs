@@ -1,11 +1,12 @@
 use std::{io, process};
+mod flatten;
+mod rename;
+
 enum Actions {
     Flatten,
     Rename,
     None,
 }
-mod flatten;
-mod rename;
 
 pub fn run(config: Vec<String>) {
     let (action, args) = parse_config(config).expect("parse config failed");

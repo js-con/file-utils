@@ -18,19 +18,18 @@ fn parse_rename_args(args: Iter<String>) -> (Vec<PathBuf>, String) {
             Err(e) => eprintln!("{}", e),
         }
     }
-    let new_suffix;
-    if args.len() == 2 {
+    let new_suffix = if args.len() == 2 {
         if args[1].starts_with('.') {
-            new_suffix = args[1]
+            args[1]
                 .split("")
                 .filter(|&s| s != ".")
                 .collect::<Vec<&str>>()
-                .join("");
+                .join("")
         } else {
-            new_suffix = args[1].to_string();
+            args[1].to_string()
         }
     } else {
-        new_suffix = "".to_string();
+        "".to_string()
     };
     (path_arr, new_suffix)
 }
