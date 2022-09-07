@@ -1,4 +1,5 @@
 use std::{
+    error::Error,
     fs, io,
     path::{Path, PathBuf},
 };
@@ -36,4 +37,23 @@ pub fn copy_dir(target: &Path, to: &Path) -> Result<(), io::Error> {
 }
 pub fn get_files_in_dir(dir: &Path) -> Result<Vec<PathBuf>, io::Error> {
     fs::read_dir(dir).and_then(|files| files.map(|f| Ok(f?.path())).collect())
+}
+
+pub fn get_suffix(file: PathBuf) -> Result<Option<String>, io::Error> {
+    if file.is_file() {
+        Ok(file.file_name().and_then(|f| {
+            f.to_str().and_then(|n| {
+                n.contains(".")
+                    .then_some(
+                        n.split(".")
+                            .collect::<Vec<&str>>()
+                            .last()
+                            .and_then(|suffix| Some(suffix.to_string())),
+                    )
+                    .unwrap()
+            })
+        }))
+    } else {
+        Err(io::Error::new(io::ErrorKind::Other, "is not a file"))
+    }
 }
