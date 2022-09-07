@@ -1,17 +1,23 @@
+use crate::utils::{extract_dir, get_files_in_dir};
 use std::{fs, path::Path, process, slice::Iter};
-use crate::utils;
 
 pub fn run(args: Iter<String>) {
     match parse_flatten_args(args) {
         Some((target_dir, new_dir, is_deep)) => {
-            for dir in utils::get_files_in_dir(target_dir) {
-                if dir.is_dir() {
-                    if let Err(e) = utils::extract_dir(&dir, target_dir, is_deep) {
-                        eprintln!("error when extract dir: {}", e);
+            match get_files_in_dir(target_dir) {
+                Ok(files) => {
+                    for dir in files {
+                        if dir.is_dir() {
+                            extract_dir(&dir, target_dir, is_deep)
+                                .map_err(|e| eprintln!("error when extract dir:{}", e));
+                            fs::remove_dir_all(&dir)
+                                .map_err(|e| eprintln!("error when remove dir: {}", e));
+                        }
                     }
-                    if let Err(e) = fs::remove_dir_all(&dir) {
-                        eprintln!("error when remove dir: {}", e);
-                    }
+                }
+                Err(e) => {
+                    eprintln!("{}", e);
+                    process::exit(1);
                 }
             }
             if !new_dir.is_empty() {
