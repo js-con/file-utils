@@ -39,4 +39,4 @@ bash:
   - [x] deep mode 
 - [x] rename files 
   - [x] batch change suffix of files(glob rules)
-- [ ] sort files
+- [x] sort files
