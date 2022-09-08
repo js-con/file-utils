@@ -1,11 +1,13 @@
 use std::{io, process};
 mod flatten;
 mod rename;
+mod sort;
 mod utils;
 
 enum Actions {
     Flatten,
     Rename,
+    Sort,
     None,
 }
 
@@ -14,6 +16,7 @@ pub fn run(config: Vec<String>) {
     match action {
         Actions::Flatten => flatten::run(args.iter()),
         Actions::Rename => rename::run(args.iter()),
+        Actions::Sort => sort::run(args.iter()),
         Actions::None => println!("wrong action!"),
     }
 }
@@ -25,6 +28,7 @@ fn parse_config(config: Vec<String>) -> Result<(Actions, Vec<String>), io::Error
     let action = match config[1].as_str() {
         "flat" => Actions::Flatten,
         "rename" => Actions::Rename,
+        "sort" => Actions::Sort,
         _ => Actions::None,
     };
     let args = config[2..].to_vec();

@@ -5,7 +5,7 @@ fn parse_rename_args(args: Iter<String>) -> (Vec<PathBuf>, String) {
     let args = &args.map(|s| s.as_ref()).collect::<Vec<&str>>();
     if args.is_empty() {
         eprintln!("please input path");
-        panic!()
+        process::exit(1);
     }
     let mut path_arr = vec![];
     for entry in glob(args[0]).expect("path should be glob pattern") {
