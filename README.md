@@ -21,15 +21,15 @@ bash:
 ./fu rename "{glob}" {new_suffix}
 ```
 
+**notice!**
+- argument {new_suffix} needn't start with ".", if that is, "." would be ignored.
+- if argument {new_suffix} doesn't exist, the suffix of files would be removed. 
+
 ### sort
 
 ```shell
 ./fu sort {target_dir} [--deep]
 ```
-
-**notice!**
-- argument {new_suffix} needn't start with ".", if that is, "." would be ignored.
-- if argument {new_suffix} doesn't exist, the suffix of files would be removed. 
 
 ## Features
 
